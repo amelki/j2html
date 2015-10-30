@@ -1,6 +1,7 @@
 package j2html.tags;
 
 import j2html.attributes.Attr;
+import j2html.attributes.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +103,23 @@ public class ContainerTag extends Tag {
         setAttribute(attribute, value);
         return this;
     }
+
+    public ContainerTag style(String name, String value) {
+        String pair = name + ":" + value;
+        for (Attribute attribute : attributes) {
+            if ("style".equals(attribute.getName())) {
+                String currentValue = attribute.getValue();
+                if (currentValue == null) {
+                    attribute.setValue(pair);
+								} else {
+                    attribute.setValue(currentValue + ";" + pair);
+                }
+                return this;
+				}
+			}
+			attr("style", pair);
+			return this;
+		}
 
     /**
      * Call attr-method based on condition
